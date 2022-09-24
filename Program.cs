@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ShippingSystem.Data;
+using ShippingSystem.Interfaces;
+using ShippingSystem.Repository;
 using ShippingSystem.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +30,7 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

@@ -29,7 +29,7 @@ namespace ShippingSystem.Models
         public City Cities { get; set; }
         [Required]
         public string StreetAndVillage { get; set; }
-        public bool? IsVillage { get; set; }
+        public bool IsVillage { get; set; } = false;
         [Required]
         public Branch Branches { get; set; }
         [Required]
