@@ -12,6 +12,11 @@ namespace ShippingSystem.Data
         {
         }
 
-        public DbSet<ShippingCostSettings> ShippingCostSetting { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<OrderStatus> OrderStatus { get; set; }
+        public DbSet<PaymentType> PaymentType { get; set; }
+        public DbSet<ShippingType> ShippingType { get; set; }
+
     }
 }

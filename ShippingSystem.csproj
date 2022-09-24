@@ -21,11 +21,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Employee\Controllers\" />
-    <Folder Include="Areas\Employee\Views\" />
-    <Folder Include="Areas\Merchant\Controllers\" />
-    <Folder Include="Areas\Merchant\Views\" />
-  </ItemGroup>
-
 </Project>

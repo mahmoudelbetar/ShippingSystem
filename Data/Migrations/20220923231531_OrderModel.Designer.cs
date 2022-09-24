@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShippingSystem.Data;
 
@@ -11,9 +12,10 @@ using ShippingSystem.Data;
 namespace ShippingSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220923231531_OrderModel")]
+    partial class OrderModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,27 +269,12 @@ namespace ShippingSystem.Data.Migrations
                     b.Property<float>("OrderCost")
                         .HasColumnType("real");
 
-                    b.Property<DateTime?>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OrderStatusId")
-                        .HasColumnType("int");
-
                     b.Property<int>("OrderTypes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PaymentTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("SecondPhone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("SerialNumber")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("ShippingTypeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("StreetAndVillage")
                         .IsRequired()
@@ -298,93 +285,7 @@ namespace ShippingSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderStatusId")
-                        .IsUnique();
-
-                    b.HasIndex("PaymentTypeId")
-                        .IsUnique();
-
-                    b.HasIndex("ShippingTypeId")
-                        .IsUnique();
-
                     b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.OrderStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("StatusName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OrderStatus");
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.PaymentType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentType");
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("ProductWeight")
-                        .HasColumnType("real");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.ShippingType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ShippingType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -435,68 +336,6 @@ namespace ShippingSystem.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.Order", b =>
-                {
-                    b.HasOne("ShippingSystem.Models.OrderStatus", "OrderStatus")
-                        .WithOne("Order")
-                        .HasForeignKey("ShippingSystem.Models.Order", "OrderStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ShippingSystem.Models.PaymentType", "PaymentType")
-                        .WithOne("Order")
-                        .HasForeignKey("ShippingSystem.Models.Order", "PaymentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ShippingSystem.Models.ShippingType", "ShippingType")
-                        .WithOne("Order")
-                        .HasForeignKey("ShippingSystem.Models.Order", "ShippingTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderStatus");
-
-                    b.Navigation("PaymentType");
-
-                    b.Navigation("ShippingType");
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.Product", b =>
-                {
-                    b.HasOne("ShippingSystem.Models.Order", "Order")
-                        .WithOne("Product")
-                        .HasForeignKey("ShippingSystem.Models.Product", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.Order", b =>
-                {
-                    b.Navigation("Product")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.OrderStatus", b =>
-                {
-                    b.Navigation("Order")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.PaymentType", b =>
-                {
-                    b.Navigation("Order")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.ShippingType", b =>
-                {
-                    b.Navigation("Order")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

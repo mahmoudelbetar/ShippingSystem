@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -64,14 +65,10 @@ app.UseAuthorization();
 
 app.UseSession();
 
-app.MapAreaControllerRoute(
-            name: "Identity",
-            areaName: "Identity",
-            pattern: "Identity/{controller=Home}/{action=Index}/{id?}");
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+//app.MapAreaControllerRoute(
+//            name: "areas",
+//            areaName: "Merchant",
+//            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 
 app.MapControllerRoute(
