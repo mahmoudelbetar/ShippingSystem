@@ -107,7 +107,37 @@
 
 
             @*Add Product*@
-
+            <div class="col-md-12 my-3">
+                <div class="border border-1 border-secondary p-4">
+                    <a class="btn btn-primary" id="duplicate">اضافة منتج</a>
+                    <table class="table table-responsive d-inline">
+                        <thead>
+                            <tr class="bg-secondary text-white">
+                                <th>اسم المنتج</th>
+                                <th>الكمية</th>
+                                <th>الوزن</th>
+                                <th>حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            <tr id="productRow">
+                                <td>
+                                    <input asp-for="Product.ProductName" class="form-control" />
+                                </td>
+                                <td>
+                                    <input asp-for="Product.ProductName" class="form-control" />
+                                </td>
+                                <td>
+                                    <input asp-for="Product.ProductName" class="form-control" />
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" id="removeRow">حذف</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
 
             <div class="col-md-4">
@@ -168,5 +198,6 @@
 
 
 @section Scripts {
+    <script src="~/js/duplicateproduct.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
