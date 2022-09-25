@@ -9,11 +9,11 @@ using ShippingSystem.Data;
 
 #nullable disable
 
-namespace ShippingSystem.Data.Migrations
+namespace ShippingSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220923231531_OrderModel")]
-    partial class OrderModel
+    [Migration("20220925213815_Initial_V4")]
+    partial class Initial_V4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -222,6 +222,71 @@ namespace ShippingSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ShippingSystem.Models.Branch", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("AddingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("BranchName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Branch");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GovernorateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GovernorateId");
+
+                    b.ToTable("City");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.Governorate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("GovernorateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Governorate");
+                });
+
             modelBuilder.Entity("ShippingSystem.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -230,10 +295,10 @@ namespace ShippingSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Branches")
+                    b.Property<int>("BranchId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Cities")
+                    b.Property<int>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("CustomerName")
@@ -248,10 +313,10 @@ namespace ShippingSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Governorates")
+                    b.Property<int>("GovernorateId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("IsVillage")
+                    b.Property<bool>("IsVillage")
                         .HasColumnType("bit");
 
                     b.Property<string>("MerchantAddress")
@@ -269,12 +334,23 @@ namespace ShippingSystem.Data.Migrations
                     b.Property<float>("OrderCost")
                         .HasColumnType("real");
 
-                    b.Property<int>("OrderTypes")
+                    b.Property<DateTime?>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("SecondPhone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ShippingTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("StreetAndVillage")
                         .IsRequired()
@@ -285,7 +361,118 @@ namespace ShippingSystem.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("GovernorateId");
+
+                    b.HasIndex("OrderStatusId")
+                        .IsUnique();
+
+                    b.HasIndex("OrderTypeId");
+
+                    b.HasIndex("PaymentTypeId")
+                        .IsUnique();
+
+                    b.HasIndex("ShippingTypeId")
+                        .IsUnique();
+
                     b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.OrderStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("StatusName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderStatus");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.OrderType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("OrderTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderType");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.PaymentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentType");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("ProductWeight")
+                        .HasColumnType("real");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.ShippingType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShippingType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -336,6 +523,111 @@ namespace ShippingSystem.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.City", b =>
+                {
+                    b.HasOne("ShippingSystem.Models.Governorate", "Governorate")
+                        .WithMany()
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Governorate");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.Order", b =>
+                {
+                    b.HasOne("ShippingSystem.Models.Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShippingSystem.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShippingSystem.Models.Governorate", "Governorate")
+                        .WithMany()
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShippingSystem.Models.OrderStatus", "OrderStatus")
+                        .WithOne("Order")
+                        .HasForeignKey("ShippingSystem.Models.Order", "OrderStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShippingSystem.Models.OrderType", "OrderType")
+                        .WithMany()
+                        .HasForeignKey("OrderTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShippingSystem.Models.PaymentType", "PaymentType")
+                        .WithOne("Order")
+                        .HasForeignKey("ShippingSystem.Models.Order", "PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShippingSystem.Models.ShippingType", "ShippingType")
+                        .WithOne("Order")
+                        .HasForeignKey("ShippingSystem.Models.Order", "ShippingTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("City");
+
+                    b.Navigation("Governorate");
+
+                    b.Navigation("OrderStatus");
+
+                    b.Navigation("OrderType");
+
+                    b.Navigation("PaymentType");
+
+                    b.Navigation("ShippingType");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.Product", b =>
+                {
+                    b.HasOne("ShippingSystem.Models.Order", "Order")
+                        .WithOne("Product")
+                        .HasForeignKey("ShippingSystem.Models.Product", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.Order", b =>
+                {
+                    b.Navigation("Product")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.OrderStatus", b =>
+                {
+                    b.Navigation("Order")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.PaymentType", b =>
+                {
+                    b.Navigation("Order")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.ShippingType", b =>
+                {
+                    b.Navigation("Order")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

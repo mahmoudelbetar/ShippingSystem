@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace ShippingSystem.Models
 {
-    public class OrderStatus
+    public class Governorate
     {
         [Key]
         public int Id { get; set; }
-        public string? StatusName { get; set; }
-        [ValidateNever]
-        [JsonIgnore]
-        public Order Order { get; set; }
+        public string GovernorateName { get; set; }
+        public bool IsActive { get; set; }
+        
     }
 }

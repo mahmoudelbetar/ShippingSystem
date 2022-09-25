@@ -17,6 +17,10 @@ namespace ShippingSystem.Data
         public DbSet<OrderStatus> OrderStatus { get; set; }
         public DbSet<PaymentType> PaymentType { get; set; }
         public DbSet<ShippingType> ShippingType { get; set; }
+        public DbSet<OrderType> OrderType { get; set; }
+        public DbSet<Governorate> Governorate { get; set; }
+        public DbSet<Branch> Branch { get; set; }
+        public DbSet<City> City { get; set; }
 
     }
 }

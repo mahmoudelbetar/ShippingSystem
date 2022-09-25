@@ -23,6 +23,10 @@ namespace ShippingSystem.Controllers
             }
             else
             {
+                var merchant = await _userManager.FindByEmailAsync("merchant@merchant.com");
+                var employee = await _userManager.FindByEmailAsync("employee@employee.com");
+                await _userManager.AddToRoleAsync(merchant, "Merchant");
+                await _userManager.AddToRoleAsync(employee, "Employee");
                 return View();
             }
             

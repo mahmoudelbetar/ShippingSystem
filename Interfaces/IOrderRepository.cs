@@ -6,5 +6,7 @@ namespace ShippingSystem.Interfaces
     {
         void Update(Order order);
         void Save();
+        Order? GetLastOrder();
+        
     }
 }
