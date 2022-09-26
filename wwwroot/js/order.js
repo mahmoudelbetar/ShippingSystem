@@ -23,8 +23,10 @@ $(document).ready(function () {
 
 function loadDataTable(status) {
     datatables = $('#tblData').DataTable({
+        paging: true,
+        select: true,
         "ajax": {
-            "url": `/Orders/GetAllOrders?status=${status}`
+            "url": `/Orders/GetAllOrders`
         },
         "columns": [
             { "data": "id", "width": "5%" },
@@ -36,24 +38,34 @@ function loadDataTable(status) {
             { "data": "orderCost", "width": "5%" },
             {
                 "data": "id",
+                "width": "5%",
                 "render": function (id) {
                     return `
-                        <div class=" w-75 btn-group" role="group">
-                            <a href="/Orders/Edit?orderId=${id}" class="btn btn-primary mx-2">
-                                <i class="bi bi-pencil-square">Edit</i>
+                        <div class="btn-group">
+                            <a href="/Orders/Edit?orderId=${id}" class="btn btn-primary w-50 mx-2 text-center">
+                                Edit
                             </a>   
                         </div>
                     `;
                 }
             },
-            { "data": "orderStatus.statusName", "width": "5%" },
+            {
+                "data": null,
+                "render": function () {
+                    
+                    return `
+                                <a class="btn btn-primary" id="status">الحالة</a>
+                            `;
+                }
+            },
             {
                 "data": "id",
+                "width": "5%",
                 "render": function (id) {
                     return `
-                        <div class=" w-75 btn-group" role="group">
-                            <a href="/Orders/Delete?orderId=${id}" class="btn btn-danger mx-2">
-                                <i class="bi bi-trash-square">Delete</i>
+                        <div class="btn-group">
+                            <a href="/Orders/Delete?orderId=${id}" class="btn btn-danger w-50 mx-2 text-center">
+                                Delete
                             </a>
                             
                         </div>
@@ -64,6 +76,14 @@ function loadDataTable(status) {
     });
 }
 
+var statusBtn = document.getElementById("status");
+statusBtn.onclick = function () {
+    Swal.fire(
+        'Good job!',
+        'You clicked the button!',
+        'success'
+    )
+}
 
 function Delete(url) {
     Swal.fire({

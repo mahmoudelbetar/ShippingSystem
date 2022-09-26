@@ -9,13 +9,18 @@ html {
   }
 }
 
+option{
+    background-color: white!important;
+    color: black!important;
+}
+
 table > thead > tr > th{
     vertical-align: middle;
     text-align: center;
 }
 
-.trow th{
-    text-align: center;
+th, td{
+    text-align: center!important;
 }
 
 html {

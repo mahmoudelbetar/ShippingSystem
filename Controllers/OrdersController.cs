@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using ShippingSystem.Interfaces;
 using ShippingSystem.Models;
 using ShippingSystem.ViewModels;
@@ -17,13 +18,29 @@ namespace ShippingSystem.Controllers
         }
         public IActionResult Index()
         {
-            var orders = _unitOfWork.Order.GetAll().Result;
-            if(orders == null)
+            OrderStatusViewModel orderStatusViewModel = new OrderStatusViewModel()
             {
-                Order order = new Order();
-                return View(order);
+                Orders = _unitOfWork.Order.GetAll().Result,
+                OrderStatuses = new SelectList(_unitOfWork.OrderStatus.GetAll().Result, "Id", "StatusName")
+            };
+            //var orders = _unitOfWork.Order.GetAll().Result;
+            if(orderStatusViewModel.Orders == null)
+            {
+                OrderStatusViewModel ordervm = new OrderStatusViewModel()
+                {
+                    Orders = new List<Order>(),
+                    OrderStatuses = new SelectList(_unitOfWork.OrderStatus.GetAll().Result, "Id", "StatusName")
+                };
+                
+                return View(ordervm);
             }
-            return View(orders);
+            foreach(var order in orderStatusViewModel.Orders)
+            {
+                order.Governorate = _unitOfWork.Governorates.GetFirstOrDefault(g => g.Id == order.GovernorateId).Result;
+                order.City = _unitOfWork.Cities.GetFirstOrDefault(c => c.Id == order.CityId).Result;
+            }
+            
+            return View(orderStatusViewModel);
         }
 
         [Authorize(Roles = "Merchant")]
@@ -87,6 +104,9 @@ namespace ShippingSystem.Controllers
         public IActionResult GetAllOrders()
         {
             var orders = _unitOfWork.Order.GetAll("OrderStatus,Governorate,Branch,City").Result;
+            var status = _unitOfWork.OrderStatus.GetAll().Result;
+            
+
             return Json(new { data = orders });
         }
     }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model OrderStatusViewModel
+@{
     var status = Context.Request.Query["status"];
     var pending = "";
     var inprocess = "";
@@ -61,6 +62,7 @@
     </div>
     <br /> <br />
 
+
 <table id="tblData" class="table table-bordered ordersTable my-3" width="100%">
     <thead class="bg-dark text-white my-3">
         <tr>
@@ -76,11 +78,41 @@
             <th>حذف</th>
             
         </tr>
+        
     </thead>
+    <tbody>
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.OrderDate</td>
+                <td>@item.CustomerName</td>
+                <td>@item.FirstPhone</td>
+                <td>@item.Governorate.GovernorateName</td>
+                <td>@item.City.CityName</td>
+                <td>@item.OrderCost</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                </td>
+                <td>
+                    <select asp-for="@item.OrderStatusId" asp-items="Model.OrderStatuses" class="form-control bg-primary text-white text-center">
+                        <option selected disabled>اختر الحالة</option>
+                    </select>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
 </div>
 
 @section Scripts{
-    <script src="~/js/order.js"></script>
+    @*<script src="~/js/order.js"></script>*@
 }
