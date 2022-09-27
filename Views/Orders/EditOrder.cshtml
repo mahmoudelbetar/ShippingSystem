@@ -1,0 +1,218 @@
+﻿@model OrderProductsViewModel
+
+@{
+    ViewData["Title"] = "تعديل الطلب";
+    var products = Model.Products.ToList();
+}
+<h4>@ViewData["Title"]</h4>
+<div class="row">
+    
+        <form asp-action="EditOrder" method="post">
+            <input asp-for="Order.Id" type="hidden" />
+            <input asp-for="Order.OrderStatusId" type="hidden" />
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Order.OrderTypeId" class="control-label">نوع الطلب</label>
+                    <select asp-for="Order.OrderTypeId" asp-items="Model.OrderTypes" class="form-control">
+                        <option selected disabled>اختر النوع</option>
+                    </select>
+                    <span asp-validation-for="Order.OrderTypeId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Order.CustomerName" class="control-label">اسم العميل</label>
+                    <input asp-for="Order.CustomerName" class="form-control" placeholder="الاسم"/>
+                    <span asp-validation-for="Order.CustomerName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-group">
+                    <label asp-for="Order.FirstPhone" class="control-label">رقم الهاتف</label>
+                    <input asp-for="Order.FirstPhone" class="form-control" />
+                    <span asp-validation-for="Order.FirstPhone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Order.SecondPhone" class="control-label">رقم الهاتف 2</label>
+                    <input asp-for="Order.SecondPhone" class="form-control" />
+                    <span asp-validation-for="Order.SecondPhone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Order.Email" class="control-label">البريد الالكتروني</label>
+                    <input asp-for="Order.Email" class="form-control" />
+                    <span asp-validation-for="Order.Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-group">
+                    <label asp-for="Order.GovernorateId" class="control-label">المحافظة</label>
+                    <select asp-for="Order.GovernorateId" asp-items="Model.Governorates" class="form-control">
+                        <option selected disabled>اختر المحافظة</option>
+                    </select>
+                    <span asp-validation-for="Order.GovernorateId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Order.CityId" class="control-label">المدينة</label>
+                    <select asp-for="Order.CityId" asp-items="Model.Cities" class="form-control">
+                        <option selected disabled>اختر المدينة</option>
+                    </select>
+                    <span asp-validation-for="Order.CityId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-group">
+                    <label asp-for="Order.StreetAndVillage" class="control-label">القرية و الشارع</label>
+                    <input asp-for="Order.StreetAndVillage" class="form-control" placeholder="القرية و الشارع"/>
+                    <span asp-validation-for="Order.StreetAndVillage" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-group mt-4">
+                    <label asp-for="Order.IsVillage" class="control-label">توصيل لقرية؟</label>
+                    <input name="IsVillage" type="checkbox" id="IsVillage" />
+                    <span asp-validation-for="Order.IsVillage" class="text-danger"></span>
+                </div>
+            </div>
+   
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Order.ShippingTypeId" class="control-label">نوع الشحن</label>
+                    <select asp-for="Order.ShippingTypeId" asp-items="Model.ShippingTypes" class ="form-control">
+                        <option selected disabled>اختر نوع الشحن</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-group">
+                    <label asp-for="Order.PaymentTypeId" class="control-label">نوع الدفع</label>
+                    <select asp-for="Order.PaymentTypeId" asp-items="Model.PaymentTypes" class ="form-control" asp-items="ViewBag.PaymentTypeId">
+                        <option selected disabled>اختر نوع الدفع</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Order.BranchId" class="control-label">الفرع</label>
+                    <select asp-for="Order.BranchId" asp-items="Model.Branches" class="form-control">
+                        <option selected disabled>اختر الفرع</option>
+                    </select>
+                    <span asp-validation-for="Order.BranchId" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            @*Add Product*@
+            <div class="col-md-12 my-3">
+                <div class="border border-1 border-secondary p-4">
+                    <a class="btn btn-primary" id="duplicate">اضافة منتج</a>
+                    <table class="table table-responsive d-inline">
+                        <thead>
+                            <tr class="bg-secondary text-white">
+                                <th>اسم المنتج</th>
+                                <th>الكمية</th>
+                                <th>الوزن</th>
+                                <th>حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @{
+                                for (var i=0; i < Model.Products.Count(); i++)
+                                {
+                                    
+                                    <tr id="productRow">
+                                        <td hidden>
+                                            <input asp-for="@products[i].OrderId" type="hidden" />
+                                        </td>
+                                        <td hidden>
+                                            <input asp-for="@products[i].Id" type="hidden" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="@products[i].ProductName" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="@products[i].Quantity" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="@products[i].ProductWeight" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-danger removeRow">حذف</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Order.OrderCost" class="control-label">تكلفة الطلب</label>
+                    <input asp-for="Order.OrderCost" class="form-control" placeholder="تكلفة الطلب"/>
+                    <span asp-validation-for="Order.OrderCost" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Order.TotalWeight" class="control-label">اجمالي الوزن</label>
+                    <input asp-for="Order.TotalWeight" class="form-control" placeholder="اجمالي الوزن (كجم)"/>
+                    <span asp-validation-for="Order.TotalWeight" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Order.Notes" class="control-label">ملاحظات</label>
+                    <textarea asp-for="Order.Notes" class="form-control" ></textarea>
+                    <span asp-validation-for="Order.Notes" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row border-1 border-secondary border p-3 my-3">
+                <label class="mb-3 control-label">بيانات التاجر</label>
+                
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Order.MerchantPhone" class="control-label">رقم الهاتف</label>
+                            <input asp-for="Order.MerchantPhone" class="form-control" />
+                            <span asp-validation-for="Order.MerchantPhone" class="text-danger"></span>
+                        </div>
+                        
+                    </div>
+               
+                
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Order.MerchantAddress" class="control-label">العنوان</label>
+                            <input asp-for="Order.MerchantAddress" class="form-control" />
+                            <span asp-validation-for="Order.MerchantAddress" class="text-danger"></span>
+                        </div>
+                        
+                    </div>
+               
+            </div>
+            
+            
+            <div class="form-group">
+                <input type="submit" value="حفظ" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-primary">رجوع</a>
+            </div>
+            </div>
+        </form>
+    
+</div>
+
+
+
+@section Scripts {
+    <script src="~/js/duplicateproduct.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -60,7 +60,7 @@ namespace ShippingSystem.Controllers
                 OrderTypes = new SelectList(_unitOfWork.OrderTypes.GetAll().Result, "Id", "OrderTypeName"),
                 Governorates = new SelectList(_unitOfWork.Governorates.GetAll().Result, "Id", "GovernorateName"),
                 Branches = new SelectList(_unitOfWork.Branches.GetAll().Result, "Id", "BranchName"),
-                Cities = new SelectList(_unitOfWork.Cities.GetAll().Result, "Id", "CityName"),
+                Cities = new SelectList(_unitOfWork.Cities.GetAll().Result, "Id", "CityName")
             };
             return View(orderViewModel);
         }
@@ -101,6 +101,42 @@ namespace ShippingSystem.Controllers
         }
 
         [HttpGet]
+        public IActionResult EditOrder(int? id)
+        {
+            OrderProductsViewModel orderViewModel = new()
+            {
+                Order = _unitOfWork.Order.GetFirstOrDefault(o => o.Id == id).Result,
+                Products = _unitOfWork.Product.GetAll(o => o.OrderId == id).Result,
+                PaymentTypes = new SelectList(_unitOfWork.PaymentTypes.GetAll().Result, "Id", "Type"),
+                ShippingTypes = new SelectList(_unitOfWork.ShippingTypes.GetAll().Result, "Id", "Type"),
+                OrderTypes = new SelectList(_unitOfWork.OrderTypes.GetAll().Result, "Id", "OrderTypeName"),
+                Governorates = new SelectList(_unitOfWork.Governorates.GetAll().Result, "Id", "GovernorateName"),
+                Branches = new SelectList(_unitOfWork.Branches.GetAll().Result, "Id", "BranchName"),
+                Cities = new SelectList(_unitOfWork.Cities.GetAll().Result, "Id", "CityName")
+            };
+            return View(orderViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditOrder(OrderProductsViewModel model)
+        {
+            model.Order.OrderDate = DateTime.Now;
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            _unitOfWork.Order.Update(model.Order);
+            foreach(var item in model.Products)
+            {
+                _unitOfWork.Product.Update(item);
+            }
+            _unitOfWork.Save();
+            TempData["Success"] = "Order Updated Successfully!";
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public IActionResult GetAllOrders()
         {
             var orders = _unitOfWork.Order.GetAll("OrderStatus,Governorate,Branch,City").Result;
@@ -108,6 +144,31 @@ namespace ShippingSystem.Controllers
             
 
             return Json(new { data = orders });
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var order = _unitOfWork.Order.GetFirstOrDefault(o => o.Id == id).Result;
+            if(order == null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.Order.Remove(order);
+            _unitOfWork.Save();
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult SaveOrderStatus(int orderStatusId, int orderId)
+        {
+            var status = _unitOfWork.OrderStatus.GetFirstOrDefault(s => s.Id == orderStatusId).Result;
+            var order = _unitOfWork.Order.GetFirstOrDefault(o => o.Id == orderId).Result;
+            order.OrderStatusId = status.Id;
+            _unitOfWork.Order.Update(order);
+            _unitOfWork.Save();
+            return Ok();
+
         }
     }
 }

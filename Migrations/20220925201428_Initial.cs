@@ -401,7 +401,7 @@ namespace ShippingSystem.Migrations
                 name: "IX_Order_OrderStatusId",
                 table: "Order",
                 column: "OrderStatusId",
-                unique: true);
+                unique: false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_OrderTypeId",
@@ -412,19 +412,19 @@ namespace ShippingSystem.Migrations
                 name: "IX_Order_PaymentTypeId",
                 table: "Order",
                 column: "PaymentTypeId",
-                unique: true);
+                unique: false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_ShippingTypeId",
                 table: "Order",
                 column: "ShippingTypeId",
-                unique: true);
+                unique: false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_OrderId",
                 table: "Product",
                 column: "OrderId",
-                unique: true);
+                unique: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
