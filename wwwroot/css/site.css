@@ -9,9 +9,11 @@ html {
   }
 }
 
-option{
-    background-color: white!important;
-    color: black!important;
+
+
+option {
+    background-color: white !important;
+    color: black !important;
 }
 
 table > thead > tr > th{

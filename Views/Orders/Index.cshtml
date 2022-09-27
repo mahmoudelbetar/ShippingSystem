@@ -1,21 +1,55 @@
 ﻿@model OrderStatusViewModel
 @{
     var status = Context.Request.Query["status"];
-    var pending = "";
-    var inprocess = "";
-    var completed = "";
     var all = "";
+    var newOrder = "";
+    var deliveredToRep = "";
+    var delivered = "";
+    var cannotDelivered = "";
+    var postponed = "";
+    var partialyDelivered = "";
+    var cancelled = "";
+    var refusedWithPaid = "";
+    var refusedWithPartialyPaid = "";
+    var refusedWithNoPaid = "";
+    var waiting = "";
+    
     switch (status)
     {
-        case "pending":
-            pending = "bg-primary text-white";
+        case "جديد":
+            newOrder = "bg-primary text-white";
             break;
-        case "inprocess":
-            inprocess = "bg-primary text-white";
+        case "قيد الانتظار":
+            waiting = "bg-primary text-white";
             break;
-        case "completed":
-            completed = "bg-primary text-white";
+        case "تم التسليم للمندوب":
+            deliveredToRep = "bg-primary text-white";
             break;
+        case "تم التسليم":
+            delivered = "bg-primary text-white";
+            break;
+        case "لا يمكن الوصول":
+            cannotDelivered = "bg-primary text-white";
+            break;
+        case "تم التأجيل":
+            postponed = "bg-primary text-white";
+            break;
+        case "تم التسليم جزئيا":
+            partialyDelivered = "bg-primary text-white";
+            break;
+        case "تم الالغاء من قبل المستلم":
+            cancelled = "bg-primary text-white";
+            break;
+        case "تم الرفض مع الدفع":
+            refusedWithPaid = "bg-primary text-white";
+            break;
+        case "رفض مع سداد جزء":
+            refusedWithPartialyPaid = "bg-primary text-white";
+            break;
+        case "رفض و لم يتم الدفع":
+            refusedWithNoPaid = "bg-primary text-white";
+            break;
+        
         default :
             all = "bg-primary text-white";
             break;
@@ -30,35 +64,79 @@
     <div class="row pt-4">
         
         
-        <div class="col-6">
-            <ul class="list-group shadow-none list-group-horizontal-sm justify-content-start">
-                <a style="text-decoration:none;" asp-action="Index" asp-controller="Order" asp-route-status="inprocess">
-                    <li class="list-group-item @inprocess">
-                        InProcess
-                    </li>
-                </a>
-                <a style="text-decoration:none;" asp-action="Index" asp-controller="Order" asp-route-status="pending">
-                    <li class="list-group-item @pending">
-                        Pending
-                    </li>
-                </a>
-                <a style="text-decoration:none;" asp-action="Index" asp-controller="Order" asp-route-status="completed">
-                    <li class="list-group-item @completed">
-                        Completed
-                    </li>
-                </a>
-                <a style="text-decoration:none;" asp-action="Index" asp-controller="Order" asp-route-status="all">
+        <div class="col-12">
+            <ul class="list-group shadow-none list-group-horizontal p-0">
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="الكل" class="text-nowrap text-decoration-none">
                     <li class="list-group-item @all">
-                        All
+                        الكل
                     </li>
                 </a>
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="جديد" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @newOrder">
+                        جديد
+                    </li>
+                </a>
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="قيد الانتظار" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @waiting">
+                        قيد الانتظار
+                    </li>
+                </a>
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="تم التسليم للمندوب" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @deliveredToRep">
+                        تم التسليم للمندوب
+                    </li>
+                </a>
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="تم التسليم" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @delivered">
+                        تم التسليم
+                    </li>
+                </a>
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="لا يمكن الوصول" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @cannotDelivered">
+                        لا يمكن الوصول
+                    </li>
+                </a>
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="تم التأجيل" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @postponed">
+                        تم التأجيل
+                    </li>
+                </a>
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="تم التسليم جزئيا" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @partialyDelivered">
+                        تم التسليم جزئيا
+                    </li>
+                </a>
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="تم الالغاء من قبل المستلم" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @cancelled">
+                        تم الالغاء من قبل المستلم
+                    </li>
+                </a>
+               
             </ul>
+            <div class="row">
+                <div class="col-12">
+                     <ul class="list-group shadow-none list-group-horizontal p-0 justify-content-center">
+                         <a asp-action="Index" asp-controller="Orders" asp-route-status="تم الرفض مع الدفع" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @refusedWithPaid">
+                        تم الرفض مع الدفع
+                    </li>
+                </a>
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="رفض مع سداد جزء" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @refusedWithPartialyPaid">
+                        رفض مع سداد جزء
+                    </li>
+                </a>
+                <a asp-action="Index" asp-controller="Orders" asp-route-status="رفض و لم يتم الدفع" class="text-nowrap text-decoration-none">
+                    <li class="list-group-item @refusedWithNoPaid">
+                        رفض و لم يتم الدفع
+                    </li>
+                </a>
+                     </ul>
+                </div>
+            </div>
         </div>
-        @*<div class="col-6 text-end">
-            <a asp-controller="Order" asp-action="Upsert" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Create New Product
-            </a>
-        </div>*@
+        
+        
     </div>
     <br /> <br />
 
@@ -74,8 +152,10 @@
             <th>المدينة</th>
             <th>تكلفة الطلب</th>
             <th>تعديل الطلب</th>
+                
             <th>تغيير الحالة</th>
             <th>حذف</th>
+                
             
         </tr>
         
@@ -97,15 +177,15 @@
                     </a>
                 </td>
                 <td>
-                    <select asp-for="@item.OrderStatusId" asp-items="Model.OrderStatuses" class="form-control bg-primary text-white text-center statusValues" onChange="SaveOrderStatus(this, @item.Id)">
+                    <select asp-for="@item.OrderStatusId" asp-items="Model.OrderStatuses" class="form-select bg-primary text-white text-center statusValues" onChange="SaveOrderStatus(this, @item.Id)">
                         <option selected disabled>اختر الحالة</option>
                     </select>
                 </td>
-                <td>
-                    <button class="btn btn-danger" onClick="Delete(@item.Id)">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
+                    <td>
+                            <button class="btn btn-danger" onClick="Delete(@item.Id)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
             </tr>
         }
     </tbody>

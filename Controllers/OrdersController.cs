@@ -16,29 +16,52 @@ namespace ShippingSystem.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        public IActionResult Index()
+        [Authorize(Roles = "Employee")]
+        public IActionResult Index(string? status)
         {
             OrderStatusViewModel orderStatusViewModel = new OrderStatusViewModel()
             {
                 Orders = _unitOfWork.Order.GetAll().Result,
                 OrderStatuses = new SelectList(_unitOfWork.OrderStatus.GetAll().Result, "Id", "StatusName")
             };
-            //var orders = _unitOfWork.Order.GetAll().Result;
-            if(orderStatusViewModel.Orders == null)
-            {
-                OrderStatusViewModel ordervm = new OrderStatusViewModel()
-                {
-                    Orders = new List<Order>(),
-                    OrderStatuses = new SelectList(_unitOfWork.OrderStatus.GetAll().Result, "Id", "StatusName")
-                };
-                
-                return View(ordervm);
-            }
-            foreach(var order in orderStatusViewModel.Orders)
+            foreach (var order in orderStatusViewModel.Orders)
             {
                 order.Governorate = _unitOfWork.Governorates.GetFirstOrDefault(g => g.Id == order.GovernorateId).Result;
                 order.City = _unitOfWork.Cities.GetFirstOrDefault(c => c.Id == order.CityId).Result;
             }
+            if(status != "الكل")
+            {
+                orderStatusViewModel.Orders = _unitOfWork.Order.GetAll(o => o.OrderStatus.StatusName == status).Result;
+                return View(orderStatusViewModel);
+            }
+            //switch (status)
+            //{
+            //    case "جديد":
+            //        orderStatusViewModel.Orders = _unitOfWork.Order.GetAll(o => o.OrderStatus.StatusName == status).Result;
+                    
+                    
+            //        break;
+            //    case "قيد الانتظار":
+            //        orderStatusViewModel.Orders = _unitOfWork.Order.GetAll(o => o.OrderStatus.StatusName == status).Result;
+                    
+            //        break;
+            //    default:
+            //        orderStatusViewModel.Orders = _unitOfWork.Order.GetAll().Result;
+                   
+            //        break;
+            //}
+            
+            //if(orderStatusViewModel.Orders == null)
+            //{
+            //    OrderStatusViewModel ordervm = new OrderStatusViewModel()
+            //    {
+            //        Orders = new List<Order>(),
+            //        OrderStatuses = new SelectList(_unitOfWork.OrderStatus.GetAll().Result, "Id", "StatusName")
+            //    };
+                
+            //    return View(ordervm);
+            //}
+            
             
             return View(orderStatusViewModel);
         }

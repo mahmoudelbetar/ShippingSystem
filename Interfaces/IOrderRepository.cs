@@ -8,5 +8,6 @@ namespace ShippingSystem.Interfaces
         void Save();
         Order? GetLastOrder();
         
+        
     }
 }

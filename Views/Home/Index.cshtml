@@ -1,9 +1,11 @@
 ﻿@{
     if(User.IsInRole("Merchant")){
-        <partial name="_MerchantHome" />
+        
+        <partial name="_MerchantHome"/>
+        
     }else if (User.IsInRole("Employee"))
     {
-        <partial name="_EmployeeHome" />
+        <partial name="_EmployeeHome"/>
     }
     else
     {

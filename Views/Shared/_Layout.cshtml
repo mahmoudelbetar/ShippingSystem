@@ -33,7 +33,7 @@
                                 @if (User.IsInRole("Merchant"))
                                 {
                                     <li><a class="dropdown-item" asp-controller="Orders" asp-action="CreateOrder">انشاء طلب</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Orders" asp-action="Index">عرض الطلبات</a></li>
+                                    
                                 }
                                 @if (User.IsInRole("Employee"))
                                 {

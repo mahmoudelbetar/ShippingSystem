@@ -13,6 +13,8 @@ namespace ShippingSystem.Repository
             _db = db;
         }
 
+        
+
         public Order? GetLastOrder()
         {
             return _db.Order.OrderBy(o => o.Id).LastOrDefault();
