@@ -15,7 +15,10 @@ namespace ShippingSystem.Repository
 
         public void Update(OrderStatus orderStatus)
         {
-            _db.OrderStatus.Update(orderStatus);
+            _db.OrderStatus.Attach(orderStatus);
+            var entry = _db.Entry(orderStatus);
+            entry.Property(e => e.CountStatus).IsModified = true;
+            _db.SaveChanges();
         }
     }
 }

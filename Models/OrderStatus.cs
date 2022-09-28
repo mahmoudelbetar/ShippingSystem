@@ -13,6 +13,6 @@ namespace ShippingSystem.Models
         [ValidateNever]
         [JsonIgnore]
         public Order Order { get; set; }
-        public string? CountStatus { get; set; }
+        public int? CountStatus { get; set; }
     }
 }

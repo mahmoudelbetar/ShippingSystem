@@ -8,6 +8,6 @@ namespace ShippingSystem.Interfaces
         void Save();
         Order? GetLastOrder();
 
-        IEnumerable<object> CountEachOrderStatus();
+        IEnumerable<CountStatus> CountEachOrderStatus();
     }
 }

@@ -13,10 +13,10 @@ namespace ShippingSystem.Repository
             _db = db;
         }
 
-        public IEnumerable<object> CountEachOrderStatus()
+        public IEnumerable<CountStatus> CountEachOrderStatus()
         {
             var orders = _db.Order.ToList();
-            var groups = orders.GroupBy(o => o.OrderStatusId).Select(g => new
+            var groups = orders.GroupBy(o => o.OrderStatusId).Select(g => new CountStatus()
             {
                 Id = g.Key,
                 Count = g.Count()
