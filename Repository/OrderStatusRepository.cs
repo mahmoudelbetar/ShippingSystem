@@ -12,5 +12,10 @@ namespace ShippingSystem.Repository
         {
             _db = db;
         }
+
+        public void Update(OrderStatus orderStatus)
+        {
+            _db.OrderStatus.Update(orderStatus);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace ShippingSystem.Models
@@ -12,5 +13,6 @@ namespace ShippingSystem.Models
         [ValidateNever]
         [JsonIgnore]
         public Order Order { get; set; }
+        public string? CountStatus { get; set; }
     }
 }

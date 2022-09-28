@@ -4,5 +4,6 @@ namespace ShippingSystem.Interfaces
 {
     public interface IOrderStatusRepository : IRepository<OrderStatus>
     {
+        void Update(OrderStatus orderStatus);
     }
 }

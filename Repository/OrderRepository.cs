@@ -13,7 +13,16 @@ namespace ShippingSystem.Repository
             _db = db;
         }
 
-        
+        public IEnumerable<object> CountEachOrderStatus()
+        {
+            var orders = _db.Order.ToList();
+            var groups = orders.GroupBy(o => o.OrderStatusId).Select(g => new
+            {
+                Id = g.Key,
+                Count = g.Count()
+            });
+            return groups;
+        }
 
         public Order? GetLastOrder()
         {

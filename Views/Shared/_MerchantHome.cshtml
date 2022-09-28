@@ -1,11 +1,26 @@
 ﻿@inject IUnitOfWork _unit
 @{
     var orderStatus = _unit.OrderStatus.GetAll().Result;
+    var countOrderStatus = _unit.Order.CountEachOrderStatus();
+    List<string> words = new List<string>();
+    foreach (var status in countOrderStatus)
+    {
+        words.Add(status.ToString().Split()[status.ToString().Split().Length - 2]);
+    }
+    List<OrderStatus> ords = new List<OrderStatus>();
+    for(var i = 0; i < ords.Count(); i++)
+    {
+        ords[i].CountStatus = words[i].ToString();
+        
+    }
+    _unit.Save();
+
+    
 }
 <div class="w-100 h-100 p-2" style="background-color:#dddddd">
     <p class="m-1 p-1 bg-white">الرئيسية</p>
     <div class="row pe-1 m-1 justify-content-start">  
-        
+            
             @foreach (var item in orderStatus)
            {
                <div class="card mb-3 me-1 ms-5" style="max-width: 18rem;">
@@ -18,7 +33,7 @@
                         </span>
                     </div>
                     <div class="col-4 mt-1">
-                        <bold>1</bold>
+                        <bold>@item.CountStatus</bold>
                     </div>
                     
                 </div>
