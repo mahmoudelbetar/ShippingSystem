@@ -12,6 +12,7 @@
         IGovernorateRepository Governorates { get; }
         ICityRepository Cities { get; }
         IBranchRepository Branches { get; }
+        IWeightSettingRepository WeightSettings { get; }
         void Save();
     }
 }

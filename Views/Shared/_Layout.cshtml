@@ -34,6 +34,10 @@
                                 {
                                     <li><a class="dropdown-item" asp-controller="Orders" asp-action="CreateOrder">انشاء طلب</a></li>
                                     <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                                    <li><a class="dropdown-item" asp-controller="WeightSettings" asp-action="Index">اعدادات الوزن</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Branches" asp-action="Index">الفروع</a></li>
+                                     <li><a class="dropdown-item" asp-controller="Governorates" asp-action="Index">المحافظات</a></li>
+                                      <li><a class="dropdown-item" asp-controller="Cities" asp-action="Index">المدن</a></li>
                                     
                                 }
                                 @if (User.IsInRole("Employee"))
@@ -59,11 +63,11 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    @*<footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2022 - ShippingSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
     <script src="~/js/site.js" asp-append-version="true"></script>

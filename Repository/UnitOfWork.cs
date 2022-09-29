@@ -20,6 +20,7 @@ namespace ShippingSystem.Repository
             Governorates = new GovernorateRepository(_db);
             Cities = new CityRepository(_db);
             Branches = new BranchRepository(_db);
+            WeightSettings = new WeightSettingRepository(_db);
         }
 
         public IOrderRepository Order { get; private set; }
@@ -31,6 +32,7 @@ namespace ShippingSystem.Repository
         public IGovernorateRepository Governorates { get; private set; }
         public ICityRepository Cities { get; private set; }
         public IBranchRepository Branches { get; private set; }
+        public IWeightSettingRepository WeightSettings { get; private set; }
 
         public void Save()
         {

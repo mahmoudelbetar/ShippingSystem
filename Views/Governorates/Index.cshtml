@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ShippingSystem.Models.Governorate>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<table class="table">
+    <thead class="bg-dark text-white">
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                اسم المحافظة
+            </th>
+            
+            <th>الحالة</th>
+            <th>الاعدادات</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GovernorateName)
+            </td>
+            
+            <td>
+                    @if(item.IsActive == true)
+                    {
+                        <i class="bi bi-check-circle" style="color:green"></i>
+                    }
+                    else{
+
+                        <i class="bi bi-x-circle" style="color:red"></i>
+                        }
+                    </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

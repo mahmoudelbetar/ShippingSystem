@@ -17,6 +17,7 @@ namespace ShippingSystem.Models
         [ForeignKey("GovernorateId")]
         public Governorate Governorate { get; set; }
 
-
+        public decimal NormalCostShipping { get; set; }
+        public decimal PickUpCostShipping { get; set; }
     }
 }

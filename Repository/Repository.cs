@@ -65,6 +65,11 @@ namespace ShippingSystem.Repository
             return await query.FirstOrDefaultAsync();
         }
 
+        public async Task<T> GetFirstOrDefault()
+        {
+            return await dbSet.FirstOrDefaultAsync();
+        }
+
         public void Remove(T entity)
         {
             dbSet.Remove(entity);

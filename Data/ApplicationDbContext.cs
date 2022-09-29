@@ -21,6 +21,7 @@ namespace ShippingSystem.Data
         public DbSet<Governorate> Governorate { get; set; }
         public DbSet<Branch> Branch { get; set; }
         public DbSet<City> City { get; set; }
+        public DbSet<WeightSettings> WeightSetting { get; set; }
 
     }
 }

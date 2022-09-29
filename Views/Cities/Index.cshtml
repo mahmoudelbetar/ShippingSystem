@@ -1,0 +1,41 @@
+﻿@model City
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h5 class="text-success">اضافة مدينة</h5>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row flex-nowrap row-cols-2" style="height:50px">
+                <label style="width:82px">المحافظة </label>
+                <select asp-for="GovernorateId" asp-items="ViewBag.Govs" class="w-50 h-50">
+                    <option selected disabled>اختر المحافظة</option>
+                </select>
+                
+
+                <label style="width:60px">الاسم</label>
+                <input asp-for="CityName" class="w-50 h-50" />
+                
+
+                <label style="width:155px">تكلفة الشحن العادية</label>
+                <input asp-for="CityName" class="w-25 h-50" />
+
+                <label style="width:155px">تكلفة شحن pickup </label>
+                <input asp-for="CityName" class="w-25 h-50" />
+                
+
+                <input type="submit" value="حفظ" class="btn btn-primary w-25 mx-2 h-50" />
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

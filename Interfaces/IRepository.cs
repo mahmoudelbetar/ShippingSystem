@@ -6,6 +6,7 @@ namespace ShippingSystem.Interfaces
     {
         
         Task<T> GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includePropertis = null);
+        Task<T> GetFirstOrDefault();
         Task<IEnumerable<T>> GetAll(string? includePropertis = null);
         Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> filter, string? includePropertis = null);
         void Add(T entity);
