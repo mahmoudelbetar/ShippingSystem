@@ -10,9 +10,7 @@ namespace ShippingSystem.Models
         [Key]
         public int Id { get; set; }
         public string? StatusName { get; set; }
-        [ValidateNever]
-        [JsonIgnore]
-        public Order Order { get; set; }
+        
         public int? CountStatus { get; set; }
     }
 }

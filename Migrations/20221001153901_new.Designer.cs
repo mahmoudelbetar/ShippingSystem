@@ -12,8 +12,8 @@ using ShippingSystem.Data;
 namespace ShippingSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220925213815_Initial_V4")]
-    partial class Initial_V4
+    [Migration("20221001153901_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -260,6 +260,12 @@ namespace ShippingSystem.Migrations
                     b.Property<int>("GovernorateId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("NormalCostShipping")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PickUpCostShipping")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GovernorateId");
@@ -300,6 +306,9 @@ namespace ShippingSystem.Migrations
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
+
+                    b.Property<float>("CompanyValue")
+                        .HasColumnType("real");
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
@@ -343,11 +352,20 @@ namespace ShippingSystem.Migrations
                     b.Property<int>("OrderTypeId")
                         .HasColumnType("int");
 
+                    b.Property<float>("PaidShippingValue")
+                        .HasColumnType("real");
+
                     b.Property<int>("PaymentTypeId")
                         .HasColumnType("int");
 
+                    b.Property<float>("RecievedAmount")
+                        .HasColumnType("real");
+
                     b.Property<string>("SecondPhone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("ShippingCost")
+                        .HasColumnType("real");
 
                     b.Property<int>("ShippingTypeId")
                         .HasColumnType("int");
@@ -367,8 +385,7 @@ namespace ShippingSystem.Migrations
 
                     b.HasIndex("GovernorateId");
 
-                    b.HasIndex("OrderStatusId")
-                        .IsUnique();
+                    b.HasIndex("OrderStatusId");
 
                     b.HasIndex("OrderTypeId");
 
@@ -388,6 +405,9 @@ namespace ShippingSystem.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CountStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("StatusName")
                         .HasColumnType("nvarchar(max)");
@@ -473,6 +493,28 @@ namespace ShippingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShippingType");
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.WeightSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ExtraWeightCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Weight")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WeightSetting");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

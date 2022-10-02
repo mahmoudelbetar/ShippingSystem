@@ -46,7 +46,7 @@ namespace ShippingSystem.Controllers
             {
                 Order = new Order()
                 {
-                    OrderStatusId = 1,
+                    OrderStatusId = _unitOfWork.OrderStatus.GetFirstOrDefault().Result.Id,
                     OrderDate = DateTime.Now
                 },
                 Product = new Product(),
@@ -71,7 +71,7 @@ namespace ShippingSystem.Controllers
                 {
                     Order = new Order()
                     {
-                        OrderStatusId = 1,
+                        OrderStatusId = _unitOfWork.OrderStatus.GetFirstOrDefault().Result.Id,
                         OrderDate = DateTime.Now
                     },
                     Product = new Product(),
@@ -91,7 +91,7 @@ namespace ShippingSystem.Controllers
             _unitOfWork.Product.Add(model.Product);
             _unitOfWork.Save();
             TempData["Success"] = "Order Created Successfully!";
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
 
         }
 
@@ -131,20 +131,14 @@ namespace ShippingSystem.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public IActionResult GetAllOrders()
-        {
-            var orders = _unitOfWork.Order.GetAll("OrderStatus,Governorate,Branch,City").Result;
-            var status = _unitOfWork.OrderStatus.GetAll().Result;
-            
-
-            return Json(new { data = orders });
-        }
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
             var order = _unitOfWork.Order.GetFirstOrDefault(o => o.Id == id).Result;
+            var currentOrderStatus = _unitOfWork.OrderStatus.GetFirstOrDefault(os => os.Id == order.OrderStatusId).Result;
+            currentOrderStatus.CountStatus--;
+            _unitOfWork.OrderStatus.Update(currentOrderStatus);
             if(order == null)
             {
                 return NotFound();
@@ -157,13 +151,85 @@ namespace ShippingSystem.Controllers
         [HttpGet]
         public IActionResult SaveOrderStatus(int orderStatusId, int orderId)
         {
+            var oldOrder = _unitOfWork.Order.GetFirstOrDefault(o => o.Id == orderId).Result;
+            var oldStatus = _unitOfWork.OrderStatus.GetFirstOrDefault(os => os.Id == oldOrder.OrderStatusId).Result;
+
+            oldStatus.CountStatus--;
+            _unitOfWork.OrderStatus.Update(oldStatus);
+            _unitOfWork.Save();
+
+
             var status = _unitOfWork.OrderStatus.GetFirstOrDefault(s => s.Id == orderStatusId).Result;
             var order = _unitOfWork.Order.GetFirstOrDefault(o => o.Id == orderId).Result;
             order.OrderStatusId = status.Id;
+
+            
+
             _unitOfWork.Order.Update(order);
             _unitOfWork.Save();
             return Ok();
 
         }
+
+        [Authorize(Roles = "Employee")]
+        [HttpGet]
+        public IActionResult OrderReport(int? statusId)
+        {
+            if(statusId != null && statusId != 0)
+            {
+                var report = _unitOfWork.Order.GetAll(o => o.OrderStatusId == statusId, "OrderStatus,Governorate,City").Result;
+                ViewBag.Status = new SelectList(_unitOfWork.OrderStatus.GetAll().Result, "Id", "StatusName");
+                foreach(var rep in report)
+                {
+                    rep.OrderCost = _unitOfWork.Order.GetFirstOrDefault(o => o.Id == rep.Id).Result.OrderCost;
+
+                    rep.ShippingCost = ((rep.TotalWeight - _unitOfWork.WeightSettings.DefaultWeight()) * _unitOfWork.WeightSettings.ExtraCost()) + _unitOfWork.WeightSettings.DefaultCost();
+
+                    rep.CompanyValue = rep.ShippingCost;
+
+                    rep.RecievedAmount = rep.OrderCost + rep.ShippingCost;
+
+                    if(rep.IsVillage == true)
+                    {
+                        rep.PaidShippingValue = rep.ShippingCost + _unitOfWork.Cities.GetCityCost(rep.CityId);
+                    }
+                    else
+                    {
+                        rep.PaidShippingValue = rep.ShippingCost;
+                    }
+                }
+                return View(report);
+            }
+            else
+            {
+                var report = _unitOfWork.Order.GetAll("OrderStatus,Governorate,City").Result;
+                ViewBag.Status = new SelectList(_unitOfWork.OrderStatus.GetAll().Result, "Id", "StatusName");
+
+                foreach (var rep in report)
+                {
+                    rep.OrderCost = _unitOfWork.Order.GetFirstOrDefault(o => o.Id == rep.Id).Result.OrderCost;
+
+                    rep.ShippingCost = ((rep.TotalWeight - _unitOfWork.WeightSettings.DefaultWeight()) * _unitOfWork.WeightSettings.ExtraCost()) + _unitOfWork.WeightSettings.DefaultCost();
+
+                    rep.CompanyValue = rep.ShippingCost;
+
+                    rep.RecievedAmount = rep.OrderCost + rep.ShippingCost;
+
+                    if (rep.IsVillage == true)
+                    {
+                        rep.PaidShippingValue = rep.ShippingCost + _unitOfWork.Cities.GetCityCost(rep.CityId);
+                    }
+                    else
+                    {
+                        rep.PaidShippingValue = rep.ShippingCost;
+                    }
+                }
+
+                return View(report);
+            }
+            
+        }
+
+        
     }
 }

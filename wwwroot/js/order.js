@@ -1,22 +1,4 @@
-﻿////$(document).ready(function () {
-////    var url = window.location.search;
-////    var stat = url.split("=");
-////    stat = stat[1];
-////    switch (stat) {
-////        case "pending":
-////            loadDataTable("pending");
-////            break;
-////        case "inprocess":
-////            loadDataTable("inprocess");
-////            break;
-////        case "completed":
-////            loadDataTable("completed");
-////            break;
-////        default:
-////            loadDataTable("all");
-////    }
-
-////});
+﻿
 
 function Delete(id) {
     Swal.fire({

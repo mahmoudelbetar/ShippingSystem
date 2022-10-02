@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShippingSystem.Interfaces;
 using ShippingSystem.Models;
 
 namespace ShippingSystem.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class CitiesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

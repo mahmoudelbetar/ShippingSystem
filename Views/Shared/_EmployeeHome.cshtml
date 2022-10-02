@@ -1,13 +1,17 @@
 ﻿@inject IUnitOfWork _unit
 @{
-    var orderStatus = _unit.OrderStatus.GetAll().Result;
-    var orders = _unit.OrderStatus.GetAll().Result.ToList();
+    var orderStatus = _unit.OrderStatus.GetAll().Result.ToList();
     List<CountStatus> countOrderStatus = _unit.Order.CountEachOrderStatus().ToList();
+
     for(var i = 0; i < countOrderStatus.Count(); i++)
     {
-        orders[i].CountStatus = countOrderStatus[i].Count;
+        var updateStatusCount = _unit.OrderStatus.GetFirstOrDefault(os => os.Id == countOrderStatus[i].Id).Result;
+        updateStatusCount.CountStatus = countOrderStatus[i].Count;
+        
+        _unit.OrderStatus.Update(orderStatus[i]);
     }
-    IEnumerable<OrderStatus> ords = orders.AsEnumerable(); 
+    _unit.Save();
+    IEnumerable<OrderStatus> ords = orderStatus.AsEnumerable(); 
 
     
     

@@ -4,6 +4,7 @@ let tbody = document.getElementById("tbody");
 let removeRowBtn = document.getElementsByClassName("removeRow").item(0);
 let totalWeight = document.getElementById("totalWeight");
 let weights = document.getElementsByClassName("weights");
+let save = document.getElementById("save");
 weights = [...weights];
 var count = 0;
 
@@ -11,6 +12,8 @@ totalWeight.value = "";
 
 var totweight = parseFloat(totalWeight).toFixed(2);
 totweight = 0;
+
+
 
 
 

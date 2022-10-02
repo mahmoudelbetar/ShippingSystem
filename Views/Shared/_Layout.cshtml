@@ -34,16 +34,18 @@
                                 {
                                     <li><a class="dropdown-item" asp-controller="Orders" asp-action="CreateOrder">انشاء طلب</a></li>
                                     <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">الرئيسية</a></li>
-                                    <li><a class="dropdown-item" asp-controller="WeightSettings" asp-action="Index">اعدادات الوزن</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Branches" asp-action="Index">الفروع</a></li>
-                                     <li><a class="dropdown-item" asp-controller="Governorates" asp-action="Index">المحافظات</a></li>
-                                      <li><a class="dropdown-item" asp-controller="Cities" asp-action="Index">المدن</a></li>
+                                    
                                     
                                 }
                                 @if (User.IsInRole("Employee"))
                                 {
                                      <li><a class="dropdown-item" asp-controller="Orders" asp-action="Index">عرض الطلبات</a></li>
                                      <li><a class="dropdown-item" asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                                     <li><a class="dropdown-item" asp-controller="WeightSettings" asp-action="Index">اعدادات الوزن</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Branches" asp-action="Index">الفروع</a></li>
+                                     <li><a class="dropdown-item" asp-controller="Governorates" asp-action="Index">المحافظات</a></li>
+                                      <li><a class="dropdown-item" asp-controller="Cities" asp-action="Index">المدن</a></li>
+                                      <li><a class="dropdown-item" asp-controller="Orders" asp-action="OrderReport">تقرير الطلبات</a></li>
                                 }
                                 
                             @*<li><a class="dropdown-item" href="#">Something else here</a></li>*@

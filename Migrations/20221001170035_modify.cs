@@ -4,7 +4,7 @@
 
 namespace ShippingSystem.Migrations
 {
-    public partial class unique : Migration
+    public partial class modify : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

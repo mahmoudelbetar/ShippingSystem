@@ -1,0 +1,110 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "OrderReport";
+}
+
+<h5>تقرير الطلبات حسب الحالة</h5>
+
+<select class="form-select w-25 my-3" asp-items="@ViewBag.Status" name="statusId" id="statusList" onchange="FilterStatus(this)">
+    <option selected disabled>حالة الطلب</option>
+    <option value="0">الكل</option>
+</select>
+
+<table class="table" id="reportTable">
+    <thead class="bg-dark text-white">
+        <tr>
+            <th>
+                الرقم التسلسلي
+            </th>
+            <th>
+                الحالة
+            </th>
+            <th>
+                التاجر
+            </th>
+            <th>
+                العميل
+            </th>
+            <th>
+                رقم الهاتف
+            </th>
+            <th>
+                المحافظة
+            </th>
+            <th>
+                المدينة
+            </th>
+            <th>
+                تكلفة الطلب
+            </th>
+            <th>
+                المبلغ المستلم
+            </th>
+            <th>
+                تكلفة الشحن
+            </th>
+            <th>
+                قيمة الشحن المدفوعة
+            </th>
+            <th>
+                قيمة الشركة
+            </th>
+            <th>
+                التاريخ
+            </th>
+            
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.Id
+            </td>
+            <td>
+                @item.OrderStatus.StatusName
+            </td>
+            <td>
+                @item.MerchantPhone
+            </td>
+            <td>
+                @item.CustomerName
+            </td>
+            <td>
+                @item.FirstPhone
+            </td>
+            <td>
+                @item.Governorate.GovernorateName
+            </td>
+            <td>
+                @item.City.CityName
+            </td>
+            <td>
+                @item.OrderCost.ToString("c")
+            </td>
+            <td>
+                @item.RecievedAmount.ToString("c")
+            </td>
+            <td>
+                @item.ShippingCost.ToString("c")
+            </td>
+            <td>
+                @item.PaidShippingValue.ToString("c")
+            </td>
+            <td>
+                @item.CompanyValue.ToString("c")
+            </td>
+            <td>
+                @item.OrderDate.Value.ToShortDateString()
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts{
+    <script src="~/js/statusfilter.js"></script>
+}

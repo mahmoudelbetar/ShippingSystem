@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ShippingSystem.Migrations
 {
-    public partial class Initial : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,25 +55,12 @@ namespace ShippingSystem.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BranchName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AddingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddingDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Branch", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "City",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CityName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_City", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,7 +83,8 @@ namespace ShippingSystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StatusName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    StatusName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountStatus = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -140,6 +128,21 @@ namespace ShippingSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShippingType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WeightSetting",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Cost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ExtraWeightCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WeightSetting", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,6 +252,28 @@ namespace ShippingSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "City",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CityName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GovernorateId = table.Column<int>(type: "int", nullable: false),
+                    NormalCostShipping = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PickUpCostShipping = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_City", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_City_Governorate_GovernorateId",
+                        column: x => x.GovernorateId,
+                        principalTable: "Governorate",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
@@ -272,7 +297,11 @@ namespace ShippingSystem.Migrations
                     MerchantAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderStatusId = table.Column<int>(type: "int", nullable: false),
                     ShippingTypeId = table.Column<int>(type: "int", nullable: false),
-                    PaymentTypeId = table.Column<int>(type: "int", nullable: false)
+                    PaymentTypeId = table.Column<int>(type: "int", nullable: false),
+                    ShippingCost = table.Column<float>(type: "real", nullable: false),
+                    RecievedAmount = table.Column<float>(type: "real", nullable: false),
+                    PaidShippingValue = table.Column<float>(type: "real", nullable: false),
+                    CompanyValue = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -294,7 +323,7 @@ namespace ShippingSystem.Migrations
                         column: x => x.GovernorateId,
                         principalTable: "Governorate",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Order_OrderStatus_OrderStatusId",
                         column: x => x.OrderStatusId,
@@ -383,6 +412,11 @@ namespace ShippingSystem.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_City_GovernorateId",
+                table: "City",
+                column: "GovernorateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Order_BranchId",
                 table: "Order",
                 column: "BranchId");
@@ -400,8 +434,7 @@ namespace ShippingSystem.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Order_OrderStatusId",
                 table: "Order",
-                column: "OrderStatusId",
-                unique: false);
+                column: "OrderStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_OrderTypeId",
@@ -412,19 +445,19 @@ namespace ShippingSystem.Migrations
                 name: "IX_Order_PaymentTypeId",
                 table: "Order",
                 column: "PaymentTypeId",
-                unique: false);
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_ShippingTypeId",
                 table: "Order",
                 column: "ShippingTypeId",
-                unique: false);
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_OrderId",
                 table: "Product",
                 column: "OrderId",
-                unique: false);
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -448,6 +481,9 @@ namespace ShippingSystem.Migrations
                 name: "Product");
 
             migrationBuilder.DropTable(
+                name: "WeightSetting");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -463,9 +499,6 @@ namespace ShippingSystem.Migrations
                 name: "City");
 
             migrationBuilder.DropTable(
-                name: "Governorate");
-
-            migrationBuilder.DropTable(
                 name: "OrderStatus");
 
             migrationBuilder.DropTable(
@@ -476,6 +509,9 @@ namespace ShippingSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "ShippingType");
+
+            migrationBuilder.DropTable(
+                name: "Governorate");
         }
     }
 }

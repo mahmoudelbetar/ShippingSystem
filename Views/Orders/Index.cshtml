@@ -177,6 +177,7 @@
                     </a>
                 </td>
                 <td>
+                    
                     <select asp-for="@item.OrderStatusId" asp-items="Model.OrderStatuses" class="form-select bg-primary text-white text-center statusValues" onChange="SaveOrderStatus(this, @item.Id)">
                         <option selected disabled>اختر الحالة</option>
                     </select>

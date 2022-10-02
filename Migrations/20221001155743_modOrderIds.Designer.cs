@@ -12,8 +12,8 @@ using ShippingSystem.Data;
 namespace ShippingSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220925213655_Initial_V3")]
-    partial class Initial_V3
+    [Migration("20221001155743_modOrderIds")]
+    partial class modOrderIds
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -257,7 +257,18 @@ namespace ShippingSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("GovernorateId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("NormalCostShipping")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("PickUpCostShipping")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("GovernorateId");
 
                     b.ToTable("City");
                 });
@@ -295,6 +306,9 @@ namespace ShippingSystem.Migrations
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
+
+                    b.Property<float>("CompanyValue")
+                        .HasColumnType("real");
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
@@ -338,11 +352,20 @@ namespace ShippingSystem.Migrations
                     b.Property<int>("OrderTypeId")
                         .HasColumnType("int");
 
+                    b.Property<float>("PaidShippingValue")
+                        .HasColumnType("real");
+
                     b.Property<int>("PaymentTypeId")
                         .HasColumnType("int");
 
+                    b.Property<float>("RecievedAmount")
+                        .HasColumnType("real");
+
                     b.Property<string>("SecondPhone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("ShippingCost")
+                        .HasColumnType("real");
 
                     b.Property<int>("ShippingTypeId")
                         .HasColumnType("int");
@@ -362,16 +385,13 @@ namespace ShippingSystem.Migrations
 
                     b.HasIndex("GovernorateId");
 
-                    b.HasIndex("OrderStatusId")
-                        .IsUnique();
+                    b.HasIndex("OrderStatusId");
 
                     b.HasIndex("OrderTypeId");
 
-                    b.HasIndex("PaymentTypeId")
-                        .IsUnique();
+                    b.HasIndex("PaymentTypeId");
 
-                    b.HasIndex("ShippingTypeId")
-                        .IsUnique();
+                    b.HasIndex("ShippingTypeId");
 
                     b.ToTable("Order");
                 });
@@ -383,6 +403,9 @@ namespace ShippingSystem.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CountStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("StatusName")
                         .HasColumnType("nvarchar(max)");
@@ -470,6 +493,28 @@ namespace ShippingSystem.Migrations
                     b.ToTable("ShippingType");
                 });
 
+            modelBuilder.Entity("ShippingSystem.Models.WeightSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ExtraWeightCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Weight")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WeightSetting");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -519,6 +564,17 @@ namespace ShippingSystem.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ShippingSystem.Models.City", b =>
+                {
+                    b.HasOne("ShippingSystem.Models.Governorate", "Governorate")
+                        .WithMany()
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Governorate");
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Order", b =>

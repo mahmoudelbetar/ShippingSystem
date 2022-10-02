@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShippingSystem.Models
 {
+    [Index("OrderStatusId", IsUnique = false)]
+    [Index("ShippingTypeId", IsUnique = false)]
+    [Index("PaymentTypeId", IsUnique = false)]
     public class Order
     {
         [Key]
@@ -90,12 +94,13 @@ namespace ShippingSystem.Models
         [Required(ErrorMessage = "يرجي ادخال عنوان التاجر")]
         public string MerchantAddress { get; set; }
 
-
+        [Required]
         public int OrderStatusId { get; set; }
 
 
-        [ValidateNever]
+        
         [ForeignKey("OrderStatusId")]
+        [ValidateNever]
         public OrderStatus OrderStatus { get; set; }
 
 
@@ -119,8 +124,11 @@ namespace ShippingSystem.Models
         [ValidateNever]
         public Product Product { get; set; }
 
+        public float ShippingCost { get; set; }
+        public float RecievedAmount { get; set; }
+        public float PaidShippingValue { get; set; }
+        public float CompanyValue { get; set; }
 
-        
-        
+
     }
 }

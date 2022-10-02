@@ -305,6 +305,9 @@ namespace ShippingSystem.Migrations
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
+                    b.Property<float>("CompanyValue")
+                        .HasColumnType("real");
+
                     b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -347,11 +350,20 @@ namespace ShippingSystem.Migrations
                     b.Property<int>("OrderTypeId")
                         .HasColumnType("int");
 
+                    b.Property<float>("PaidShippingValue")
+                        .HasColumnType("real");
+
                     b.Property<int>("PaymentTypeId")
                         .HasColumnType("int");
 
+                    b.Property<float>("RecievedAmount")
+                        .HasColumnType("real");
+
                     b.Property<string>("SecondPhone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("ShippingCost")
+                        .HasColumnType("real");
 
                     b.Property<int>("ShippingTypeId")
                         .HasColumnType("int");
@@ -371,16 +383,13 @@ namespace ShippingSystem.Migrations
 
                     b.HasIndex("GovernorateId");
 
-                    b.HasIndex("OrderStatusId")
-                        .IsUnique();
+                    b.HasIndex("OrderStatusId");
 
                     b.HasIndex("OrderTypeId");
 
-                    b.HasIndex("PaymentTypeId")
-                        .IsUnique();
+                    b.HasIndex("PaymentTypeId");
 
-                    b.HasIndex("ShippingTypeId")
-                        .IsUnique();
+                    b.HasIndex("ShippingTypeId");
 
                     b.ToTable("Order");
                 });
@@ -587,8 +596,8 @@ namespace ShippingSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("ShippingSystem.Models.OrderStatus", "OrderStatus")
-                        .WithOne("Order")
-                        .HasForeignKey("ShippingSystem.Models.Order", "OrderStatusId")
+                        .WithMany()
+                        .HasForeignKey("OrderStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -639,12 +648,6 @@ namespace ShippingSystem.Migrations
             modelBuilder.Entity("ShippingSystem.Models.Order", b =>
                 {
                     b.Navigation("Product")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ShippingSystem.Models.OrderStatus", b =>
-                {
-                    b.Navigation("Order")
                         .IsRequired();
                 });
 

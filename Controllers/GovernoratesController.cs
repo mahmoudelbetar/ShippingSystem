@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShippingSystem.Interfaces;
 
 namespace ShippingSystem.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class GovernoratesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
