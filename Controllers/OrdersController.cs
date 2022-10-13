@@ -230,6 +230,12 @@ namespace ShippingSystem.Controllers
             
         }
 
+        [HttpGet]
+        public IActionResult AddProductName()
+        {
+            var request = HttpContext.Request;
+            return Json(new {data = request});
+        }
         
     }
 }

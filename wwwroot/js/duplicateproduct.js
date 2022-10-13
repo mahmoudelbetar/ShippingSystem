@@ -58,3 +58,20 @@ removeRowBtn.addEventListener('click', function () {
     removeRowBtn.parentNode.parentNode.remove();
 })
 
+
+$("#addPname").click(function () {
+    var pname = $("#pname").val();
+    var pquantity = $("#pquantity").val();
+    var pweight = $("#pweight").val();
+    var product = { "pname": pname, "pquantity": pquantity, "pweight": pweight };
+    var products = [];
+    products.push(product);
+    console.log(products);
+    $.ajax({
+        url: `/Orders/AddProductName`,
+        data: products,
+        success: function (data) {
+            console.log(data);
+        }
+    })
+})
