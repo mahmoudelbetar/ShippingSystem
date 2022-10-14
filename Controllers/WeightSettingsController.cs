@@ -30,7 +30,7 @@ namespace ShippingSystem.Controllers
             }
             _unitOfWork.WeightSettings.Add(weightSettings);
             _unitOfWork.Save();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

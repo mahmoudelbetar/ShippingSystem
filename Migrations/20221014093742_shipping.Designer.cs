@@ -12,8 +12,8 @@ using ShippingSystem.Data;
 namespace ShippingSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221001170035_modify")]
-    partial class modify
+    [Migration("20221014093742_shipping")]
+    partial class shipping
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,22 @@ namespace ShippingSystem.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "782b3d14-193f-41eb-9ee6-073bece4d59a",
+                            ConcurrencyStamp = "71d18d22-856c-4434-8e40-2d63a45102b8",
+                            Name = "Merchant",
+                            NormalizedName = "MERCHANT"
+                        },
+                        new
+                        {
+                            Id = "98a82c8a-1d51-41c0-b17e-734e7822304d",
+                            ConcurrencyStamp = "fedc935e-ad0f-4761-a006-7983b0646f0f",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -139,6 +155,40 @@ namespace ShippingSystem.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2e2f1bdd-7c0b-4854-add0-ab8eec66bc23",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6b4a34d3-3a3b-4814-bca0-48799fa1aa6c",
+                            Email = "employee@employee.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "EMPLOYEE@EMPLOYEE.COM",
+                            NormalizedUserName = "EMPLOYEE@EMPLOYEE.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHSQM1qAccg8Yf1d+msuWKVKCkVWk81L0zXkwZio+rZcaBlz9fCJU+PqKv5SbJbmDQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "HEEVJ4ANMTAJLV57S7ITEKAF2FHIIWBJ",
+                            TwoFactorEnabled = false,
+                            UserName = "employee@employee.com"
+                        },
+                        new
+                        {
+                            Id = "acc1915e-bb86-43d6-b34d-78eb7c128a00",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "43913d3f-e2df-4956-818c-79506ec9e7d4",
+                            Email = "merchant@merchant.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "MERCHANT@MERCHANT.COM",
+                            NormalizedUserName = "MERCHANT@MERCHANT.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAECQo2ErqmLbFIrLeowLZXNPN+tNnwS7Ddn8xWxzhzHA+wpuFCjjpuIPh0QNLcJSU3g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "2F2KBRLNAE2TKEP3OFJU3N5CBX4QM537",
+                            TwoFactorEnabled = false,
+                            UserName = "merchant@merchant.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -243,6 +293,22 @@ namespace ShippingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Branch");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AddingDate = new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(7382),
+                            BranchName = "المنوفية",
+                            IsActive = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AddingDate = new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(7402),
+                            BranchName = "القاهرة",
+                            IsActive = true
+                        });
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.City", b =>
@@ -271,6 +337,24 @@ namespace ShippingSystem.Migrations
                     b.HasIndex("GovernorateId");
 
                     b.ToTable("City");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CityName = "شبين الكوم",
+                            GovernorateId = 1,
+                            NormalCostShipping = 10m,
+                            PickUpCostShipping = 10m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CityName = "الاميرية",
+                            GovernorateId = 2,
+                            NormalCostShipping = 10m,
+                            PickUpCostShipping = 10m
+                        });
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Governorate", b =>
@@ -291,6 +375,20 @@ namespace ShippingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Governorate");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            GovernorateName = "المنوفية",
+                            IsActive = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            GovernorateName = "القاهرة",
+                            IsActive = true
+                        });
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Order", b =>
@@ -394,6 +492,158 @@ namespace ShippingSystem.Migrations
                     b.HasIndex("ShippingTypeId");
 
                     b.ToTable("Order");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BranchId = 1,
+                            CityId = 1,
+                            CompanyValue = 0f,
+                            CustomerName = "mahmoud",
+                            Email = "m@me.com",
+                            FirstPhone = "010106171222",
+                            GovernorateId = 1,
+                            IsVillage = false,
+                            MerchantAddress = "address",
+                            MerchantPhone = "12321312",
+                            OrderCost = 0f,
+                            OrderDate = new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(7975),
+                            OrderStatusId = 1,
+                            OrderTypeId = 1,
+                            PaidShippingValue = 0f,
+                            PaymentTypeId = 1,
+                            RecievedAmount = 0f,
+                            ShippingCost = 0f,
+                            ShippingTypeId = 1,
+                            StreetAndVillage = "menouf",
+                            TotalWeight = 0f
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BranchId = 1,
+                            CityId = 1,
+                            CompanyValue = 0f,
+                            CustomerName = "mahmoud",
+                            Email = "m@me.com",
+                            FirstPhone = "010106171222",
+                            GovernorateId = 1,
+                            IsVillage = false,
+                            MerchantAddress = "address",
+                            MerchantPhone = "12321312",
+                            OrderCost = 0f,
+                            OrderDate = new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(7990),
+                            OrderStatusId = 1,
+                            OrderTypeId = 1,
+                            PaidShippingValue = 0f,
+                            PaymentTypeId = 1,
+                            RecievedAmount = 0f,
+                            ShippingCost = 0f,
+                            ShippingTypeId = 1,
+                            StreetAndVillage = "menouf",
+                            TotalWeight = 0f
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BranchId = 1,
+                            CityId = 1,
+                            CompanyValue = 0f,
+                            CustomerName = "mahmoud",
+                            Email = "m@me.com",
+                            FirstPhone = "010106171222",
+                            GovernorateId = 1,
+                            IsVillage = false,
+                            MerchantAddress = "address",
+                            MerchantPhone = "12321312",
+                            OrderCost = 0f,
+                            OrderDate = new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(7998),
+                            OrderStatusId = 1,
+                            OrderTypeId = 1,
+                            PaidShippingValue = 0f,
+                            PaymentTypeId = 1,
+                            RecievedAmount = 0f,
+                            ShippingCost = 0f,
+                            ShippingTypeId = 1,
+                            StreetAndVillage = "menouf",
+                            TotalWeight = 0f
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BranchId = 1,
+                            CityId = 1,
+                            CompanyValue = 0f,
+                            CustomerName = "mahmoud",
+                            Email = "m@me.com",
+                            FirstPhone = "010106171222",
+                            GovernorateId = 1,
+                            IsVillage = false,
+                            MerchantAddress = "address",
+                            MerchantPhone = "12321312",
+                            OrderCost = 0f,
+                            OrderDate = new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(8005),
+                            OrderStatusId = 1,
+                            OrderTypeId = 1,
+                            PaidShippingValue = 0f,
+                            PaymentTypeId = 1,
+                            RecievedAmount = 0f,
+                            ShippingCost = 0f,
+                            ShippingTypeId = 1,
+                            StreetAndVillage = "menouf",
+                            TotalWeight = 0f
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BranchId = 1,
+                            CityId = 1,
+                            CompanyValue = 0f,
+                            CustomerName = "mahmoud",
+                            Email = "m@me.com",
+                            FirstPhone = "010106171222",
+                            GovernorateId = 1,
+                            IsVillage = false,
+                            MerchantAddress = "address",
+                            MerchantPhone = "12321312",
+                            OrderCost = 0f,
+                            OrderDate = new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(8011),
+                            OrderStatusId = 1,
+                            OrderTypeId = 1,
+                            PaidShippingValue = 0f,
+                            PaymentTypeId = 1,
+                            RecievedAmount = 0f,
+                            ShippingCost = 0f,
+                            ShippingTypeId = 1,
+                            StreetAndVillage = "menouf",
+                            TotalWeight = 0f
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BranchId = 1,
+                            CityId = 1,
+                            CompanyValue = 0f,
+                            CustomerName = "mahmoud",
+                            Email = "m@me.com",
+                            FirstPhone = "010106171222",
+                            GovernorateId = 1,
+                            IsVillage = false,
+                            MerchantAddress = "address",
+                            MerchantPhone = "12321312",
+                            OrderCost = 0f,
+                            OrderDate = new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(8018),
+                            OrderStatusId = 1,
+                            OrderTypeId = 1,
+                            PaidShippingValue = 0f,
+                            PaymentTypeId = 1,
+                            RecievedAmount = 0f,
+                            ShippingCost = 0f,
+                            ShippingTypeId = 1,
+                            StreetAndVillage = "menouf",
+                            TotalWeight = 0f
+                        });
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.OrderStatus", b =>
@@ -413,6 +663,74 @@ namespace ShippingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OrderStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CountStatus = 0,
+                            StatusName = "جديد"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CountStatus = 0,
+                            StatusName = "قيد الانتظار"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CountStatus = 0,
+                            StatusName = "تم التسليم للمندوب"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CountStatus = 0,
+                            StatusName = "تم التسليم"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CountStatus = 0,
+                            StatusName = "لا يمكن الوصول"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CountStatus = 0,
+                            StatusName = "تم التأجيل"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CountStatus = 0,
+                            StatusName = "تم التسليم جزئيا"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CountStatus = 0,
+                            StatusName = "تم الالغاء من قبل المستلم"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CountStatus = 0,
+                            StatusName = "تم الرفض مع الدفع"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CountStatus = 0,
+                            StatusName = "رفض مع سداد جزء"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CountStatus = 0,
+                            StatusName = "رفض و لم يتم الدفع"
+                        });
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.OrderType", b =>
@@ -430,6 +748,18 @@ namespace ShippingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OrderType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            OrderTypeName = "التسليم في الفرع"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            OrderTypeName = "التسليم عند التاجر"
+                        });
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.PaymentType", b =>
@@ -446,6 +776,23 @@ namespace ShippingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PaymentType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Type = "واجبة التحصيل"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Type = "دفع مقدم"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Type = "طرد مقابل طرد"
+                        });
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.Product", b =>
@@ -475,6 +822,16 @@ namespace ShippingSystem.Migrations
                         .IsUnique();
 
                     b.ToTable("Product");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            OrderId = 1,
+                            ProductName = "new product",
+                            ProductWeight = 20.5f,
+                            Quantity = 5
+                        });
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.ShippingType", b =>
@@ -491,6 +848,23 @@ namespace ShippingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShippingType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Type = "شحن عادي"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Type = "شحن في 24 ساعة"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Type = "شحن خلال 15 يوم"
+                        });
                 });
 
             modelBuilder.Entity("ShippingSystem.Models.WeightSettings", b =>
@@ -513,6 +887,15 @@ namespace ShippingSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WeightSetting");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Cost = 5m,
+                            ExtraWeightCost = 5m,
+                            Weight = 10m
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

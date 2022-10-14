@@ -35,7 +35,7 @@ namespace ShippingSystem.Controllers
             };
             _unitOfWork.Cities.Add(cty);
             _unitOfWork.Save();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

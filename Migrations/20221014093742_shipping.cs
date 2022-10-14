@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ShippingSystem.Migrations
 {
-    public partial class @new : Migration
+    public partial class shipping : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -372,6 +372,122 @@ namespace ShippingSystem.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "782b3d14-193f-41eb-9ee6-073bece4d59a", "71d18d22-856c-4434-8e40-2d63a45102b8", "Merchant", "MERCHANT" },
+                    { "98a82c8a-1d51-41c0-b17e-734e7822304d", "fedc935e-ad0f-4761-a006-7983b0646f0f", "Employee", "EMPLOYEE" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "2e2f1bdd-7c0b-4854-add0-ab8eec66bc23", 0, "6b4a34d3-3a3b-4814-bca0-48799fa1aa6c", "employee@employee.com", false, true, null, "EMPLOYEE@EMPLOYEE.COM", "EMPLOYEE@EMPLOYEE.COM", "AQAAAAEAACcQAAAAEHSQM1qAccg8Yf1d+msuWKVKCkVWk81L0zXkwZio+rZcaBlz9fCJU+PqKv5SbJbmDQ==", null, false, "HEEVJ4ANMTAJLV57S7ITEKAF2FHIIWBJ", false, "employee@employee.com" },
+                    { "acc1915e-bb86-43d6-b34d-78eb7c128a00", 0, "43913d3f-e2df-4956-818c-79506ec9e7d4", "merchant@merchant.com", false, true, null, "MERCHANT@MERCHANT.COM", "MERCHANT@MERCHANT.COM", "AQAAAAEAACcQAAAAECQo2ErqmLbFIrLeowLZXNPN+tNnwS7Ddn8xWxzhzHA+wpuFCjjpuIPh0QNLcJSU3g==", null, false, "2F2KBRLNAE2TKEP3OFJU3N5CBX4QM537", false, "merchant@merchant.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Branch",
+                columns: new[] { "Id", "AddingDate", "BranchName", "IsActive" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(7382), "المنوفية", true },
+                    { 2, new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(7402), "القاهرة", true }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Governorate",
+                columns: new[] { "Id", "GovernorateName", "IsActive" },
+                values: new object[,]
+                {
+                    { 1, "المنوفية", true },
+                    { 2, "القاهرة", true }
+                });
+
+            migrationBuilder.InsertData(
+                table: "OrderStatus",
+                columns: new[] { "Id", "CountStatus", "StatusName" },
+                values: new object[,]
+                {
+                    { 1, 0, "جديد" },
+                    { 2, 0, "قيد الانتظار" },
+                    { 3, 0, "تم التسليم للمندوب" },
+                    { 4, 0, "تم التسليم" },
+                    { 5, 0, "لا يمكن الوصول" },
+                    { 6, 0, "تم التأجيل" },
+                    { 7, 0, "تم التسليم جزئيا" },
+                    { 8, 0, "تم الالغاء من قبل المستلم" },
+                    { 9, 0, "تم الرفض مع الدفع" },
+                    { 10, 0, "رفض مع سداد جزء" },
+                    { 11, 0, "رفض و لم يتم الدفع" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "OrderType",
+                columns: new[] { "Id", "OrderTypeName" },
+                values: new object[,]
+                {
+                    { 1, "التسليم في الفرع" },
+                    { 2, "التسليم عند التاجر" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PaymentType",
+                columns: new[] { "Id", "Type" },
+                values: new object[,]
+                {
+                    { 1, "واجبة التحصيل" },
+                    { 2, "دفع مقدم" },
+                    { 3, "طرد مقابل طرد" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ShippingType",
+                columns: new[] { "Id", "Type" },
+                values: new object[,]
+                {
+                    { 1, "شحن عادي" },
+                    { 2, "شحن في 24 ساعة" },
+                    { 3, "شحن خلال 15 يوم" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "WeightSetting",
+                columns: new[] { "Id", "Cost", "ExtraWeightCost", "Weight" },
+                values: new object[] { 1, 5m, 5m, 10m });
+
+            migrationBuilder.InsertData(
+                table: "City",
+                columns: new[] { "Id", "CityName", "GovernorateId", "NormalCostShipping", "PickUpCostShipping" },
+                values: new object[] { 1, "شبين الكوم", 1, 10m, 10m });
+
+            migrationBuilder.InsertData(
+                table: "City",
+                columns: new[] { "Id", "CityName", "GovernorateId", "NormalCostShipping", "PickUpCostShipping" },
+                values: new object[] { 2, "الاميرية", 2, 10m, 10m });
+
+            migrationBuilder.InsertData(
+                table: "Order",
+                columns: new[] { "Id", "BranchId", "CityId", "CompanyValue", "CustomerName", "Email", "FirstPhone", "GovernorateId", "IsVillage", "MerchantAddress", "MerchantPhone", "Notes", "OrderCost", "OrderDate", "OrderStatusId", "OrderTypeId", "PaidShippingValue", "PaymentTypeId", "RecievedAmount", "SecondPhone", "ShippingCost", "ShippingTypeId", "StreetAndVillage", "TotalWeight" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, 0f, "mahmoud", "m@me.com", "010106171222", 1, false, "address", "12321312", null, 0f, new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(7975), 1, 1, 0f, 1, 0f, null, 0f, 1, "menouf", 0f },
+                    { 2, 1, 1, 0f, "mahmoud", "m@me.com", "010106171222", 1, false, "address", "12321312", null, 0f, new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(7990), 1, 1, 0f, 1, 0f, null, 0f, 1, "menouf", 0f },
+                    { 3, 1, 1, 0f, "mahmoud", "m@me.com", "010106171222", 1, false, "address", "12321312", null, 0f, new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(7998), 1, 1, 0f, 1, 0f, null, 0f, 1, "menouf", 0f },
+                    { 4, 1, 1, 0f, "mahmoud", "m@me.com", "010106171222", 1, false, "address", "12321312", null, 0f, new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(8005), 1, 1, 0f, 1, 0f, null, 0f, 1, "menouf", 0f },
+                    { 5, 1, 1, 0f, "mahmoud", "m@me.com", "010106171222", 1, false, "address", "12321312", null, 0f, new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(8011), 1, 1, 0f, 1, 0f, null, 0f, 1, "menouf", 0f },
+                    { 6, 1, 1, 0f, "mahmoud", "m@me.com", "010106171222", 1, false, "address", "12321312", null, 0f, new DateTime(2022, 10, 14, 11, 37, 40, 803, DateTimeKind.Local).AddTicks(8018), 1, 1, 0f, 1, 0f, null, 0f, 1, "menouf", 0f }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Product",
+                columns: new[] { "Id", "OrderId", "ProductName", "ProductWeight", "Quantity" },
+                values: new object[] { 1, 1, "new product", 20.5f, 5 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -444,14 +560,12 @@ namespace ShippingSystem.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Order_PaymentTypeId",
                 table: "Order",
-                column: "PaymentTypeId",
-                unique: true);
+                column: "PaymentTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_ShippingTypeId",
                 table: "Order",
-                column: "ShippingTypeId",
-                unique: true);
+                column: "ShippingTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_OrderId",
